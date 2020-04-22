@@ -7,7 +7,7 @@
     "files": [
         "lib"
     ],
-    "main": "index.js",
+    "main": "src/app.js",
     "keywords": [
         ""
     ],
@@ -69,5 +69,9 @@
     },
     "jest": {
         "testEnvironment": "node"
+    },
+    "dependencies": {
+        "body-parser": "^1.19.0",
+        "express": "^4.17.1"
     }
 }
