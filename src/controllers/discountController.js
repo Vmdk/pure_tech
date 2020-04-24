@@ -1,19 +1,21 @@
 const { getProductPrice } = require("./productController");
 const { formatPrice } = require("../utils");
 
-const appleDiscount = list => {
+const appleDiscount = (list, result) => {
     const appleProd = list.find(p => p.productId === "apple");
     if (appleProd) {
         const discount =
             getProductPrice(appleProd.productId) * appleProd.amount * 0.1;
-        return {
+        result.push({
             description: `Apples 10% off: ${formatPrice(discount)}`,
             amount: discount
-        };
+        });
     }
+
+    return result;
 };
 
-const soupsBreadDiscount = list => {
+const soupsBreadDiscount = (list, result) => {
     const soupProduct = list.find(p => p.productId === "soup");
     const breadProduct = list.find(p => p.productId === "bread");
     if (soupProduct && soupProduct.amount >= 2 && breadProduct) {
@@ -23,11 +25,13 @@ const soupsBreadDiscount = list => {
         const appliableAmount = Math.min(maxDiscAmount, breadProduct.amount);
         const discount =
             getProductPrice(breadProduct.productId) * 0.5 * appliableAmount;
-        return {
+        result.push({
             description: `Bread for soups 50% off : ${formatPrice(discount)}`,
             amount: discount
-        };
+        });
     }
+
+    return result;
 };
 
 // In general case discount - function that returns `amount` and `description`
@@ -44,16 +48,16 @@ const formDiscountDescriptions = validDiscounts => {
 
 const getDiscountsInfo = (list, discounts = existingDiscounts) => {
     try {
-        const appliedDisc = discounts.map(d => d(list)); // Apply all existing discounts
-        const validDiscounts = appliedDisc.filter(d => d); // If discount is not valid - it"s info is undefined, so we omit them
+        // Discounts work as middlewares. All of them add their data to summary.
+        const discountsResults = discounts.reduce((sum, d) => d(list, sum), []);
 
-        const totalDiscountAmount = validDiscounts.reduce(
+        const totalDiscountAmount = discountsResults.reduce(
             (sum, d) => sum + d.amount,
             0
         );
         return {
             totalDiscountAmount,
-            discountDescriptions: formDiscountDescriptions(validDiscounts)
+            discountDescriptions: formDiscountDescriptions(discountsResults)
         };
     } catch (err) {
         // Log error
