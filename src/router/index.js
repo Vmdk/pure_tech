@@ -7,6 +7,8 @@ const { getValidatedProducts } = require("../controllers/productController");
 router.post("/order", function(req, res) {
     try {
         const products = req.body.products || [];
+        const reqDate = req.body.date || new Date();
+        console.log(`Handling request from ${reqDate}`);
         // Validate input data
         const { validProducts } = getValidatedProducts(products);
         const orderData = formOrder(validProducts);
