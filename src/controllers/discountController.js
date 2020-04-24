@@ -7,7 +7,7 @@ const appleDiscount = (list, result) => {
         const discount =
             getProductPrice(appleProd.productId) * appleProd.amount * 0.1;
         result.push({
-            description: `Apples 10% off: ${formatPrice(discount)}`,
+            description: `Apples 10% off: -${formatPrice(discount)}`,
             amount: discount
         });
     }
@@ -26,7 +26,7 @@ const soupsBreadDiscount = (list, result) => {
         const discount =
             getProductPrice(breadProduct.productId) * 0.5 * appliableAmount;
         result.push({
-            description: `Bread for soups 50% off : ${formatPrice(discount)}`,
+            description: `Bread for soups 50% off : -${formatPrice(discount)}`,
             amount: discount
         });
     }
