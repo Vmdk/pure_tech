@@ -30,7 +30,7 @@ Expected response should have status `200` and body like:
 {
     "subtotal": "$10.80",
     "discounts": [
-        "Apples 10% off: 30p"
+        "Apples 10% off: -30p"
     ],
     "total": "$10.50"
 }
