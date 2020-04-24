@@ -22,20 +22,31 @@ const getProductPrice = (id, products = DEFAULT_PRODUCTS) => {
     return requestedProduct.price;
 };
 
+// This version works with integer amounts greater than zero
+const isValidAmount = p => parseInt(p, 10) > 0;
+
+const isProductAvailable = (p, availableProducts) =>
+    availableProducts.indexOf(p) !== -1;
+
 const getValidatedProducts = (list = [], products = DEFAULT_PRODUCTS) => {
     try {
         // Filter out products that cannot be purchased
         const availableProducts = products.map(p => p.productId);
-        const existingProducts = list.filter(
-            p => availableProducts.indexOf(p.productId) !== -1
-        );
-        // This version works with integer amounts greater than zero
-        const boughtProducts = existingProducts.filter(
-            p => parseInt(p.amount, 10) > 0
+        const existingValidProducts = list.filter(
+            p =>
+                isProductAvailable(p.productId, availableProducts) &&
+                isValidAmount(p.amount)
         );
 
+        // Let put some top maximum of possible amounts, let it be some magic number of 1m
+        const maxAmount = 1000000;
+        const mappedProducts = existingValidProducts.map(p => {
+            p.amount = Math.min(p.amount, maxAmount);
+            return p;
+        });
+
         return {
-            validProducts: boughtProducts
+            validProducts: mappedProducts
         };
     } catch (err) {
         // Log error
