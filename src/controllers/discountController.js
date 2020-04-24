@@ -43,17 +43,25 @@ const formDiscountDescriptions = validDiscounts => {
 };
 
 const getDiscountsInfo = (list, discounts = existingDiscounts) => {
-    const appliedDisc = discounts.map(d => d(list)); // Apply all existing discounts
-    const validDiscounts = appliedDisc.filter(d => d); // If discount is not valid - it"s info is undefined, so we omit them
+    try {
+        const appliedDisc = discounts.map(d => d(list)); // Apply all existing discounts
+        const validDiscounts = appliedDisc.filter(d => d); // If discount is not valid - it"s info is undefined, so we omit them
 
-    const totalDiscountAmount = validDiscounts.reduce(
-        (sum, d) => sum + d.amount,
-        0
-    );
-    return {
-        totalDiscountAmount,
-        discountDescriptions: formDiscountDescriptions(validDiscounts)
-    };
+        const totalDiscountAmount = validDiscounts.reduce(
+            (sum, d) => sum + d.amount,
+            0
+        );
+        return {
+            totalDiscountAmount,
+            discountDescriptions: formDiscountDescriptions(validDiscounts)
+        };
+    } catch (err) {
+        // Log error
+        console.log(
+            `Unexpected error happened during discount calculations: ${err}`
+        );
+        throw err;
+    }
 };
 
 module.exports = {

@@ -22,20 +22,28 @@ const getProductPrice = (id, products = DEFAULT_PRODUCTS) => {
     return requestedProduct.price;
 };
 
-const getValidatedProducts = (list, products = DEFAULT_PRODUCTS) => {
-    // Filter out products that cannot be purchased
-    const availableProducts = products.map(p => p.productId);
-    const existingProducts = list.filter(
-        p => availableProducts.indexOf(p.productId) !== -1
-    );
-    // This version works with integer amounts greater than zero
-    const boughtProducts = existingProducts.filter(
-        p => parseInt(p.amount, 10) > 0
-    );
+const getValidatedProducts = (list = [], products = DEFAULT_PRODUCTS) => {
+    try {
+        // Filter out products that cannot be purchased
+        const availableProducts = products.map(p => p.productId);
+        const existingProducts = list.filter(
+            p => availableProducts.indexOf(p.productId) !== -1
+        );
+        // This version works with integer amounts greater than zero
+        const boughtProducts = existingProducts.filter(
+            p => parseInt(p.amount, 10) > 0
+        );
 
-    return {
-        validProducts: boughtProducts
-    };
+        return {
+            validProducts: boughtProducts
+        };
+    } catch (err) {
+        // Log error
+        console.log(
+            `Unexpected error happened during products validation: ${err}`
+        );
+        throw err;
+    }
 };
 
 module.exports = {

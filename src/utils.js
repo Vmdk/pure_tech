@@ -6,7 +6,7 @@ const priceWithDollars = amount => {
 
 const priceWithPennies = amount => `${amount}p`;
 
-const formatPrice = amount => {
+const formatPrice = (amount = 0) => {
     const priceFormatter =
         Math.abs(amount) >= 100 ? priceWithDollars : priceWithPennies;
     return priceFormatter(amount);

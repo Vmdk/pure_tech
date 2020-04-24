@@ -10,14 +10,22 @@ const calculateSubtotal = list => {
 };
 
 const formOrder = products => {
-    const subtotalAmount = calculateSubtotal(products);
-    const discountsInfo = getDiscountsInfo(products);
+    try {
+        const subtotalAmount = calculateSubtotal(products);
+        const discountsInfo = getDiscountsInfo(products);
 
-    return {
-        subtotal: formatPrice(subtotalAmount),
-        discounts: discountsInfo.discountDescriptions,
-        total: formatPrice(subtotalAmount - discountsInfo.totalDiscountAmount)
-    };
+        return {
+            subtotal: formatPrice(subtotalAmount),
+            discounts: discountsInfo.discountDescriptions,
+            total: formatPrice(
+                subtotalAmount - discountsInfo.totalDiscountAmount
+            )
+        };
+    } catch (err) {
+        // Log error
+        console.log(`Unexpected error happened while forming an order: ${err}`);
+        throw err;
+    }
 };
 
 module.exports = {
