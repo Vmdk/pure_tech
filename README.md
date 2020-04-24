@@ -2,7 +2,9 @@
 test task
 
 ### Deployed URL
+
 https://secret-basin-22489.herokuapp.com/ 
+
 ### Usage
 
 There is only one API: `/order`. You should send `POST` request with
@@ -42,4 +44,24 @@ Available discounts (due to requirements) are:
 
 1. If you provide wrong input - program would act like you provide empty
 products list. So, by design, there shouldn't be 'error'-like responses.
-2. If you use Postman, here is 
+2. If you use Postman, here is snippet of request :
+```
+POST /order HTTP/1.1
+Host: secret-basin-22489.herokuapp.com
+Content-Type: application/json
+Cache-Control: no-cache
+Postman-Token: 4a114e3a-2568-a10e-d224-baf0eaafd463
+
+{
+	"products": [
+		{
+			"productId": "soup",
+			"amount": 4
+		},
+		{
+			"productId": "bread",
+			"amount": 3
+		}
+	]
+}
+```
