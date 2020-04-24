@@ -2,9 +2,7 @@
 test task
 
 ### Deployed URL
-
 https://secret-basin-22489.herokuapp.com/ 
-
 ### Usage
 
 There is only one API: `/order`. You should send `POST` request with
