@@ -11,6 +11,10 @@ app.use(bodyParser.json());
 
 app.use("/", router);
 
+app.get("*", (req, res) => {
+    res.send("Hello World!");
+});
+
 app.listen(port, err => {
     if (err) {
         return console.log("something bad happened", err);
