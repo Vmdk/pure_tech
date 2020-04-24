@@ -11,16 +11,17 @@ There is only one API: `/order`. You should send `POST` request with
 header `Content-Type: application/json` and body of next structure:
 ```
 {
-	"products": [
-		{
-			"productId": "milk",
-			"amount": 6
-		},
-		{
-			"productId": "apple",
-			"amount": 3
-		}
-	]
+    "products": [
+        {
+            "productId": "milk",
+            "amount": 6
+        },
+        {
+            "productId": "apple",
+            "amount": 3
+        }
+    ],
+    "date": "24/04/2020"
 }
 ```
 Available `productIds` (due to requirements) are: `soup, milk, apple, bread`.
@@ -53,15 +54,16 @@ Cache-Control: no-cache
 Postman-Token: 4a114e3a-2568-a10e-d224-baf0eaafd463
 
 {
-	"products": [
-		{
-			"productId": "soup",
-			"amount": 4
-		},
-		{
-			"productId": "bread",
-			"amount": 3
-		}
-	]
+    "products": [
+        {
+            "productId": "soup",
+            "amount": 4
+        },
+        {
+            "productId": "bread",
+            "amount": 3
+        }
+    ],
+    "date": "24/04/2020"
 }
 ```
