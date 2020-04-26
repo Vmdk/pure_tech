@@ -44,7 +44,7 @@ Available discounts (due to requirements) are:
 ### Notes
 
 1. If you provide wrong input - program would act like you provide empty
-products list. So, by design, there shouldn't be 'error'-like responses.
+products list and current date. So, by design, there shouldn't be 'error'-like responses.
 2. If you use Postman, here is general snippet of request :
 ```
 POST /order HTTP/1.1
