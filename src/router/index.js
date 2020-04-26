@@ -9,9 +9,12 @@ router.post("/order", function(req, res) {
         const products = req.body.products || [];
         const reqDate = req.body.date || new Date();
         console.log(`Handling request from ${reqDate}`);
-        // Validate input data
-        const { validProducts } = getValidatedProducts(products);
-        const orderData = formOrder(validProducts);
+        const requestData = {
+            // Validate input data
+            products: getValidatedProducts(products).validProducts,
+            date: reqDate
+        };
+        const orderData = formOrder(requestData);
         res.status(200);
         res.send(orderData);
     } catch (err) {

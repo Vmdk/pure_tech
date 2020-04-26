@@ -9,10 +9,10 @@ const calculateSubtotal = list => {
     }, 0);
 };
 
-const formOrder = products => {
+const formOrder = requestData => {
     try {
-        const subtotalAmount = calculateSubtotal(products);
-        const discountsInfo = getDiscountsInfo(products);
+        const subtotalAmount = calculateSubtotal(requestData.products);
+        const discountsInfo = getDiscountsInfo(requestData);
 
         return {
             subtotal: formatPrice(subtotalAmount),

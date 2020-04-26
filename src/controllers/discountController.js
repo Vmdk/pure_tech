@@ -1,9 +1,10 @@
 const { getProductPrice } = require("./productController");
-const { formatPrice } = require("../utils");
+const { formatPrice, isCurrentWeek } = require("../utils");
 
-const appleDiscount = (list, result) => {
-    const appleProd = list.find(p => p.productId === "apple");
-    if (appleProd) {
+const appleDiscount = (requestData, result) => {
+    const { date, products } = requestData;
+    const appleProd = products.find(p => p.productId === "apple");
+    if (appleProd && isCurrentWeek(date)) {
         const discount =
             getProductPrice(appleProd.productId) * appleProd.amount * 0.1;
         result.push({
@@ -15,9 +16,9 @@ const appleDiscount = (list, result) => {
     return result;
 };
 
-const soupsBreadDiscount = (list, result) => {
-    const soupProduct = list.find(p => p.productId === "soup");
-    const breadProduct = list.find(p => p.productId === "bread");
+const soupsBreadDiscount = ({ products }, result) => {
+    const soupProduct = products.find(p => p.productId === "soup");
+    const breadProduct = products.find(p => p.productId === "bread");
     if (soupProduct && soupProduct.amount >= 2 && breadProduct) {
         // Here we calculate the maximum possible amount of breads which can get discount
         const maxDiscAmount = Math.floor(soupProduct.amount / 2);
@@ -46,10 +47,13 @@ const formDiscountDescriptions = validDiscounts => {
     return ["no valid discounts"];
 };
 
-const getDiscountsInfo = (list, discounts = existingDiscounts) => {
+const getDiscountsInfo = (requestData, discounts = existingDiscounts) => {
     try {
         // Discounts work as middlewares. All of them add their data to summary.
-        const discountsResults = discounts.reduce((sum, d) => d(list, sum), []);
+        const discountsResults = discounts.reduce(
+            (sum, d) => d(requestData, sum),
+            []
+        );
 
         const totalDiscountAmount = discountsResults.reduce(
             (sum, d) => sum + d.amount,
